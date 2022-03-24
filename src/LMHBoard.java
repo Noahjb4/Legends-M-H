@@ -5,7 +5,7 @@
 
 public class LMHBoard extends Board{
 
-    public LMHBoard(int h, int w) {
-        super(h,w);
+    public LMHBoard() {
+        super(8,8);
     }
 }

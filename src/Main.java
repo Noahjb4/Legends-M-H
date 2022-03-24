@@ -1,3 +1,7 @@
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.Arrays;
+
 /**
  * Main --- Program to begin Game Launcher
  * @author Noah Jean-Baptiste
@@ -9,6 +13,12 @@ public class Main {
      * @param args A string array containing the command line arguments.
      * @return No return value.
      */
-    public static void main(String[] args) {
+    public static void main(String[] args) throws FileNotFoundException {
+
+//        for (String[] s :FileManager.read("./src/Spirits.txt")) {
+//            System.out.println(Arrays.toString(s));
+//        }
+
+        GameLauncher.launch();
     }
 }
