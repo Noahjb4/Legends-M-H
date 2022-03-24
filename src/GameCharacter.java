@@ -7,6 +7,7 @@ public abstract class GameCharacter {
     protected int hp;
     protected int level;
     protected String name;
+    protected boolean isAlive;
 
     /**
      * Constructor creates a GameCharacter with a name, hp, and level
@@ -17,6 +18,7 @@ public abstract class GameCharacter {
         this.level = l;
         this.hp = 100*l;
         this.name = n;
+        this.isAlive = true;
     }
 
     /**
@@ -76,12 +78,6 @@ public abstract class GameCharacter {
         this.level = level;
     }
 
-    /**
-     * incrementLevel method increases level for GameCharacter by 1
-     */
-    public void incrementLevel() {
-        this.level++;
-    }
 
     /**
      * getName method gets name of a GameCharacter
@@ -100,9 +96,26 @@ public abstract class GameCharacter {
     }
 
     /**
+     * isAlive method gets the living status of GameCharacter
+     * @return isAlive of GameCharacter
+     */
+    public boolean isAlive(){
+        return this.isAlive;
+    }
+
+    /**
+     * die method sets isAlive to false
+     */
+    public void die(){
+        this.isAlive = false;
+    }
+
+
+    /**
      * toString method returns a string representation of a GameCharacter
      * @return name of GameCharacter and level they have
      */
+    @Override
     public String toString() {
         return name + ": \n level = "+level;
     }
@@ -112,8 +125,9 @@ public abstract class GameCharacter {
      * @param other	other GameCharacter that a GameCharacter is compared to
      * @return true of they have the same name and level, false otherwise
      */
-    public boolean equals(GameCharacter other) {
-        if(this.name != other.getName() || this.level != other.getLevel()){
+    @Override
+    public boolean equals(Object other) {
+        if(this.name !=((GameCharacter)other).getName()){
             return false;
         }
 

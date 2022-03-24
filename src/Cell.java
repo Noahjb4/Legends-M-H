@@ -41,6 +41,7 @@ public class Cell {
      * toString method returns a string representation of a cell
      * @return cell and its contents string representation
      */
+    @Override
     public String toString() {
         return "Cell{" +
                 "contents=" + contents +

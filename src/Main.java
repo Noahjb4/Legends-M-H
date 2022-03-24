@@ -10,6 +10,5 @@ public class Main {
      * @return No return value.
      */
     public static void main(String[] args) {
-
     }
 }

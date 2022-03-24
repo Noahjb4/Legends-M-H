@@ -68,6 +68,7 @@ public abstract class Board {
      * toString method returns a string representation of board and its contents
      * @return contents of cell array divided by ASCII boarders
      */
+    @Override
     public String toString() {
         String b = "+";
         for (int c = 0; c < width; c++) {

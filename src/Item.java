@@ -41,6 +41,7 @@ public abstract class Item {
      * toString method returns a string representation of Item
      * @return name of Item or default (unnamed Item)
      */
+    @Override
     public String toString() {
         if (this.name != "") {
             return name;
@@ -53,8 +54,9 @@ public abstract class Item {
      * @param other	other Item object that this is compared to
      * @return true of they have the same name, false otherwise
      */
-    public boolean equals(Item other) {
-        if (this.name.equals(other.getName())){
+    @Override
+    public boolean equals(Object other) {
+        if (this.name.equals(((Item)other).getName())){
             return true;
         }
         return false;
