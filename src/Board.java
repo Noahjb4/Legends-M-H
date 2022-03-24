@@ -7,7 +7,7 @@ public abstract class Board {
     private int height;
     private int width;
 
-    private Cell[] tiles;
+    private Cell[][] tiles;
 
     /**
      * Constructor creates Cell array of specified size
@@ -17,10 +17,12 @@ public abstract class Board {
     public Board(int h, int w){
         this.height = h;
         this.width = w;
-        this.tiles = new Cell[height*width];
+        this.tiles = new Cell[height][width];
 
-        for (int i = 0; i < tiles.length; i++) {
-            tiles[i] = new Cell();
+        for (int i = 0; i < this.height; i++) {
+            for (int j = 0; j<this.width; j++){
+                tiles[i][j] = new Cell();
+            }
         }
     }
 
@@ -59,7 +61,7 @@ public abstract class Board {
      * getTiles method gets contents of board
      * @return Cell array of board
      */
-    public Cell[] getTiles() {
+    public Cell[][] getTiles() {
         return tiles;
     }
 
@@ -78,10 +80,10 @@ public abstract class Board {
         for(int r = 0; r<height; r++){
             b += "|";
             for (int c = 0; c < width; c++) {
-                if (tiles[(r*width)+c].getContents() == null) {
+                if (tiles[r][c].getContents() == null) {
                     b += "   |";
                 }else {
-                    b += " "+ tiles[(r*width)+c].getContents() + " |";
+                    b += " "+ tiles[r][c].getContents() + " |";
                 }
             }
 
