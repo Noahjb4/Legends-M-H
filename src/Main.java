@@ -15,10 +15,6 @@ public class Main {
      */
     public static void main(String[] args) throws FileNotFoundException {
 
-//        for (String[] s :FileManager.read("./src/Spirits.txt")) {
-//            System.out.println(Arrays.toString(s));
-//        }
-
         GameLauncher.launch();
     }
 }

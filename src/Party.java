@@ -35,6 +35,10 @@ public class Party {
 
     }
 
+    public int getMAXSIZE() {
+        return this.MAXSIZE;
+    }
+
     public int getSize() {
         return this.members.size();
     }
