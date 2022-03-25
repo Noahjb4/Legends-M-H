@@ -1,11 +1,20 @@
-import java.util.ArrayList;
+import java.lang.reflect.Array;
+import java.util.*;
 
 public class LMHGame implements Game{
-    private LMHBoard board;
     private Party party = new Party();
+    private LMHBoard board = new LMHBoard(this.party);
     private String warriorsPath = "./src/Warriors.txt";
     private String sorcerersPath = "./src/Sorcerers.txt";
-    private String paladinsPPath = "./src/Paladins.txt";
+    private String paladinsPath = "./src/Paladins.txt";
+    private String dragonsPath = "./src/Dragons.txt";
+    private String exoskeletonsPath = "./src/Exoskeletons.txt";
+    private String armorPath = "./src/Armory.txt";
+    private String weaponsPath = "./src/Weaponry.txt";
+    private String potionsPath = "./src/Potions.txt";
+    private String fireSpellsPath = "./src/FireSpells.txt";
+    private String iceSpellsPath = "./src/IceSpells.txt";
+    private String lightningSpellsPath = "./src/LightningSpells.txt";
 
 
     /**
@@ -16,6 +25,8 @@ public class LMHGame implements Game{
 
         System.out.println("Welcome to Legends: Monsters and Heroes!\n");
         partySelection();
+        moveSequence();
+
     }
 
     /**
@@ -45,7 +56,7 @@ public class LMHGame implements Game{
                 heroes = FileManager.readFile(this.sorcerersPath);
             } else if (heroClass == '3') {
                 System.out.println("Paladins:");
-                heroes = FileManager.readFile(this.paladinsPPath);
+                heroes = FileManager.readFile(this.paladinsPath);
             } else{
                 break;
             }
@@ -66,8 +77,10 @@ public class LMHGame implements Game{
                     break;
                 }
             }
-
         }
+
+        System.out.println("You're now ready to adventure with the following party:");
+        System.out.println(this.party);
 
     }
 
@@ -94,6 +107,54 @@ public class LMHGame implements Game{
         }
 
         return h;
+    }
+
+    public void moveSequence(){
+        System.out.println(displayMap(true));
+        InputValidation.validInput(new char[] {'w','a','s','d','i','m','q'},true);
+    }
+
+    public String controls(){
+        String cont = "+-----CONTROLS-----+\n" +
+                "| W/w: move up     |\n" +
+                "| A/a: move left   |\n" +
+                "| S/s: move down   |\n" +
+                "| D/d: move right  |\n" +
+                "| I/i: show info   |\n" +
+                "| M/m: show map    |\n" +
+                "| Q/q: quit game   |\n" +
+                "+------------------+";
+        return cont;
+    }
+
+    public String displayMap(boolean withControls){
+        String map = "";
+        String title ="WORLD MAP";
+        String[] controls = controls().split("\n");
+        String[] board = this.board.toString().split("\n");
+        int i = 0;
+
+        while(i <  (((this.board.getWidth()*4)+1)-title.length())/2){
+            map += " ";
+            i++;
+        } i =0;
+        map += title+"\n";
+        if(withControls){
+            while(i<controls.length || i<board.length){
+                if(i<board.length) {
+                    map += board[i];
+                }
+                if(i<controls.length){
+                    map+="          " + controls[i];
+                }
+                map += "\n";
+                i++;
+            }
+        } else {
+            map += this.board.toString();
+        }
+
+        return map;
     }
 
     public void displayStats(){

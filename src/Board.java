@@ -4,10 +4,10 @@
  */
 
 public abstract class Board {
-    private int height;
-    private int width;
+    protected int height;
+    protected int width;
 
-    private Cell[][] tiles;
+    protected Cell[][] tiles;
 
     /**
      * Constructor creates Cell array of specified size

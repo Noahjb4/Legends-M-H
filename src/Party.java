@@ -85,4 +85,13 @@ public class Party {
         return true;
     }
 
+    @Override
+    public String toString() {
+        String personel = "";
+
+        for (Hero member : this.members) {
+            personel+=member +"\n";
+        }
+        return personel;
+    }
 }

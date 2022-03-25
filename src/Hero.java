@@ -193,4 +193,9 @@ public abstract class Hero extends GameCharacter{
         this.isAlive = true;
         this.hp = this.level*50;
     }
+
+    @Override
+    public String toString() {
+        return this.name + " the " +this.getClass().getName();
+    }
 }

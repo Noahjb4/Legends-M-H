@@ -9,4 +9,8 @@ public interface Game {
      * play method to play the Game
      */
     public void play();
+
+    public void moveSequence();
+
+    public String controls();
 }
