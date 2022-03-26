@@ -56,6 +56,18 @@ public class Party {
         this.col = c;
     }
 
+    public void moveLocation(char move) {
+        if (move == 'w'){
+            this.row -= 1;
+        } else if (move == 'a'){
+            this.col -= 1;
+        } else if (move == 's'){
+            this.row += 1;
+        } else if (move == 'd'){
+            this.col += 1;
+        }
+    }
+
     public void winEarnings(int monsterLvl){
         for (Hero h : this.members) {
             if(h.isAlive()) {

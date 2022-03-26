@@ -111,7 +111,24 @@ public class LMHGame implements Game{
 
     public void moveSequence(){
         System.out.println(displayMap(true));
-        InputValidation.validInput(new char[] {'w','a','s','d','i','m','q'},true);
+        char move = InputValidation.validInput(new char[] {'w','a','s','d','i','m','q'},true);
+        if(move == 'i'){
+
+        } else if(move == 'm') {
+
+        } else if(move == 'q') {
+
+        } else {
+            move(move);
+        }
+    }
+
+    public void move(char m){
+        if(this.board.isValidMove(m)){
+            this.party.moveLocation(m);
+            this.board.updatePartyLocation();
+            displayMap(false);
+        }
     }
 
     public String controls(){

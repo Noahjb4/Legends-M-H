@@ -4,6 +4,7 @@
  */
 public class Cell {
     private Object contents;
+    protected boolean isAccessible = true;
 
     /**
      * Constructor creates Cell with Object contents
@@ -35,6 +36,10 @@ public class Cell {
      */
     public void setContents(Object c) {
         this.contents = c;
+    }
+
+    public boolean getAccessibility(){
+        return this.isAccessible;
     }
 
     /**
