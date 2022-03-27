@@ -110,25 +110,48 @@ public class LMHGame implements Game{
     }
 
     public void moveSequence(){
-        System.out.println(displayMap(true));
-        char move = InputValidation.validInput(new char[] {'w','a','s','d','i','m','q'},true);
-        if(move == 'i'){
+        while (true) {
+            System.out.println(displayMap(true));
+            char move = InputValidation.validInput(new char[]{'w', 'a', 's', 'd', 'i', 'm', 'q'}, true);
+            if (move == 'i') {
 
-        } else if(move == 'm') {
+            } else if (move == 'm') {
 
-        } else if(move == 'q') {
+            } else if (move == 'q') {
 
-        } else {
-            move(move);
+            } else {
+                move(move);
+                encounter();
+            }
         }
     }
 
     public void move(char m){
+        char newMove;
         if(this.board.isValidMove(m)){
             this.party.moveLocation(m);
             this.board.updatePartyLocation();
-            displayMap(false);
+        } else {
+            System.out.println("Not a valid Move");
         }
+    }
+
+    public void encounter () {
+        if (this.party.getCurCell() instanceof MarketCell){
+
+        } else if (this.party.getCurCell() instanceof CommonCell) {
+            Random odds = new Random();
+            if(odds.nextInt(CommonCell.battleChance) == 1){
+                fightSequence();
+            }
+        } else {
+            System.out.println("Error: Invalid Move");
+            System.exit(1);
+        }
+    }
+
+    public void fightSequence(){
+
     }
 
     public String controls(){

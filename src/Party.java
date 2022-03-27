@@ -8,6 +8,7 @@ public class Party {
     private ArrayList<Hero> members;
     private int row;
     private int col;
+    private Cell curCell;
 
     public Party() {
         this.members = new ArrayList<Hero>();
@@ -66,6 +67,14 @@ public class Party {
         } else if (move == 'd'){
             this.col += 1;
         }
+    }
+
+    public Cell getCurCell() {
+        return this.curCell;
+    }
+
+    public void setCurCell(Cell c) {
+        this.curCell = c;
     }
 
     public void winEarnings(int monsterLvl){

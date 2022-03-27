@@ -16,6 +16,7 @@ public class LMHBoard extends Board{
         this.party = p;
         this.prevPartyRow = p.getRow();
         this.prevPartyCol = p.getCol();
+        this.party.setCurCell(new CommonCell());
 
         for (int i = 0; i < this.height; i++) {
             for (int j = 0; j < this.width; j++) {
@@ -39,8 +40,9 @@ public class LMHBoard extends Board{
     }
 
     public void updatePartyLocation(){
+        this.tiles[this.prevPartyRow][this.prevPartyCol] = this.party.getCurCell();
+        this.party.setCurCell(this.tiles[this.party.getRow()][this.party.getCol()]);
         this.tiles[this.party.getRow()][this.party.getCol()] = new Cell("P");
-        randomCell(this.prevPartyRow, this.prevPartyCol);
         this.prevPartyRow = this.party.getRow();
         this.prevPartyCol = this.party.getCol();
     }
@@ -75,7 +77,7 @@ public class LMHBoard extends Board{
         return true;
     }
     private boolean isValidMoveLeft(){
-        if (this.prevPartyRow < 0 || this.tiles[this.prevPartyRow][this.prevPartyCol-1].getAccessibility() == false){
+        if (this.prevPartyCol-1 < 0 || this.tiles[this.prevPartyRow][this.prevPartyCol-1].getAccessibility() == false){
             return false;
         }
         return true;
