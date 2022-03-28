@@ -38,7 +38,7 @@ public class InputValidation {
 
 
     /**
-     * validInt char checks and obtains user input that is an cahr
+     * validInt char checks and obtains user input that is an char
      * @return char from user input
      */
     public static char validChar(){
@@ -102,5 +102,50 @@ public class InputValidation {
             System.out.println("Enter valid input:");
 
         }
+    }
+
+    public static char validIntOrChar(int[] intChecks, char[] charChecks, boolean ignore){
+        Scanner console = new Scanner(System.in);
+        int num;
+        char c;
+        boolean wasInt = false;
+
+        while (true) {
+            if (console.hasNextInt()) {
+                num = console.nextInt();
+                for (int i = 0; i < intChecks.length; i++) {
+                    if (num == intChecks[i]) {
+                        wasInt = true;
+                    }
+                }
+                if (wasInt) {
+                    break;
+                } else {
+                    System.out.println("Please enter a valid input: ");
+                    continue;
+                }
+            } else {
+                c = console.next().charAt(0);
+                for (char check : charChecks) {
+                    if (ignore) {
+                        if (("" + c).equalsIgnoreCase("" + check)) {
+                            c = Character.toLowerCase(c);
+                            return c;
+                        }
+                    } else {
+                        if (c == check) {
+                            return c;
+                        }
+                    }
+                }
+
+                System.out.println("Please enter a valid input: ");
+                continue;
+            }
+
+
+            }
+
+        return Character.forDigit(num,Character.MAX_RADIX);
     }
 }

@@ -36,6 +36,14 @@ public class Party {
 
     }
 
+    public ArrayList<Hero> getMembers() {
+        return this.members;
+    }
+
+    public Hero getMember(int i){
+        return this.members.get(i);
+    }
+
     public int getMAXSIZE() {
         return this.MAXSIZE;
     }
@@ -108,11 +116,12 @@ public class Party {
 
     @Override
     public String toString() {
-        String personel = "";
-
+        String personnel = "";
+        int i = 1;
         for (Hero member : this.members) {
-            personel+=member +"\n";
+            personnel+=i+". "+ member +"\n";
+            i++;
         }
-        return personel;
+        return personnel;
     }
 }

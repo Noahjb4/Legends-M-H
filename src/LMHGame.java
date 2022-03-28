@@ -1,5 +1,7 @@
+import java.io.File;
 import java.lang.reflect.Array;
 import java.util.*;
+import java.util.stream.*;
 
 public class LMHGame implements Game{
     private Party party = new Party();
@@ -9,12 +11,20 @@ public class LMHGame implements Game{
     private String paladinsPath = "./src/Paladins.txt";
     private String dragonsPath = "./src/Dragons.txt";
     private String exoskeletonsPath = "./src/Exoskeletons.txt";
+    private String spiritsPath = "./src/Spirits.txt";
     private String armorPath = "./src/Armory.txt";
     private String weaponsPath = "./src/Weaponry.txt";
     private String potionsPath = "./src/Potions.txt";
     private String fireSpellsPath = "./src/FireSpells.txt";
     private String iceSpellsPath = "./src/IceSpells.txt";
     private String lightningSpellsPath = "./src/LightningSpells.txt";
+
+    ArrayList<String[]> weaponsList = FileManager.readFile(weaponsPath);
+    ArrayList<String[]> potionsList = FileManager.readFile(potionsPath);
+    ArrayList<String[]> armorList = FileManager.readFile(armorPath);
+    ArrayList<String[]> fireSpellList = FileManager.readFile(fireSpellsPath);
+    ArrayList<String[]> iceSpellList = FileManager.readFile(iceSpellsPath);
+    ArrayList<String[]> lightningSpellList = FileManager.readFile(lightningSpellsPath);
 
 
     /**
@@ -138,7 +148,7 @@ public class LMHGame implements Game{
 
     public void encounter () {
         if (this.party.getCurCell() instanceof MarketCell){
-
+            marketSequence();
         } else if (this.party.getCurCell() instanceof CommonCell) {
             Random odds = new Random();
             if(odds.nextInt(CommonCell.battleChance) == 1){
@@ -150,9 +160,93 @@ public class LMHGame implements Game{
         }
     }
 
-    public void fightSequence(){
+    public void marketSequence(){
+        char choice;
+        Hero curHero;
+        int[] maxChoices;
+        char[] extraChoices = new char[]{'m','i','r','c','q'};
 
+
+        while(true) {
+            System.out.println("MARKET\n");
+            System.out.println("| M/m: Display map \n" +
+                               "| I/i: Display info \n" +
+                               "| R/r: Reset Shop \n" +
+                               "| C/c: Exit Shop \n");
+            System.out.println("Choose a Hero to shop with:");
+            System.out.println(this.party);
+
+            maxChoices = IntStream.rangeClosed(1,this.party.getSize()).toArray();
+            choice = InputValidation.validIntOrChar(Arrays.copyOfRange(maxChoices,0,this.party.getSize()),extraChoices,true);
+            if(Character.isAlphabetic(choice)){
+                if (choice == 'r'){
+                    continue;
+                }else if (choice == 'c'){
+                    break;
+                }else{
+                }
+            }
+
+            curHero = this.party.getMember(Character.getNumericValue(choice)-1);
+            System.out.println("Select an item Type to buy for "+curHero.getName()+":");
+            System.out.println("1. Weapons \n" +
+                    "2. Armor \n" +
+                    "3. Potions \n" +
+                    "4. Spells \n");
+
+            maxChoices = IntStream.rangeClosed(1,4).toArray();
+            choice = InputValidation.validIntOrChar(maxChoices,extraChoices,true);
+            if(Character.isAlphabetic(choice)){
+                if (choice == 'r'){
+                    continue;
+                }else if (choice == 'c'){
+                    break;
+                }else{
+                }
+            }
+
+            if(choice == '1'){
+                FileManager.printNames(this.weaponsList);
+            } else if (choice == '2'){
+                FileManager.printNames(this.armorList);
+            } else if (choice == '3'){
+                FileManager.printNames(this.potionsList);
+            } else if (choice == '4'){
+                System.out.println("Select a spell type:");
+                System.out.println("1. Fire Spells\n" +
+                        "2. Ice Spells\n" +
+                        "3. Lightning Spells\n");
+                maxChoices = IntStream.rangeClosed(1,3).toArray();
+                choice = InputValidation.validIntOrChar(maxChoices,extraChoices,true);
+                if(Character.isAlphabetic(choice)){
+                    if (choice == 'r'){
+                        continue;
+                    }else if (choice == 'c'){
+                        break;
+                    }else{
+                    }
+                }
+                if(choice == '1'){
+                    FileManager.printNames(this.fireSpellList);
+                } else if (choice == '2'){
+                    FileManager.printNames(this.iceSpellList);
+                } else if (choice == '3'){
+                    FileManager.printNames(this.lightningSpellList);
+                }
+
+            }
+
+
+
+        }
     }
+
+
+    public void fightSequence(){
+        System.out.println("FIGHT");
+    }
+
+
 
     public String controls(){
         String cont = "+-----CONTROLS-----+\n" +
