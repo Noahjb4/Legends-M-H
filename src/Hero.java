@@ -42,6 +42,12 @@ public abstract class Hero extends GameCharacter{
         this.experience = xp;
         this.inParty = false;
         this.defense = 0;
+
+        weaponInventory = new ArrayList<Weapon>();
+        armorInventory = new ArrayList<Armor>();
+        potionInventory = new ArrayList<Potion>();
+        spells = new ArrayList<Spell>();
+
     }
 
     /**
@@ -194,6 +200,27 @@ public abstract class Hero extends GameCharacter{
         this.hp =  this.level*100;
         this.mana *= 1.1;
     }
+
+    public void addToInventory(Item item){
+        if(item instanceof Weapon){
+            this.weaponInventory.add((Weapon)item);
+        } else if(item instanceof Armor){
+            this.armorInventory.add((Armor)item);
+        } else if(item instanceof Potion){
+            this.potionInventory.add((Potion)item);
+        } else if(item instanceof Spell){
+            this.spells.add((Spell)item);
+        }
+    }
+
+    public void equipWeapon(int i){
+        currWeapon = weaponInventory.get(i);
+    }
+    public void equipArmor(int i){
+        currArmor = armorInventory.get(i);
+    }
+
+
 
     /**
      * revive method sets isAlive to true

@@ -75,7 +75,7 @@ public class LMHGame implements Game{
             System.out.println("Pick A Hero:");
 
             int heroChoice = InputValidation.validInt(1,heroes.size());
-            member = heroCreator(heroes.get(heroChoice-1), heroClass);
+            member = FileManager.heroCreator(heroes.get(heroChoice-1), heroClass);
             this.party.addMember(member);
 
             System.out.println(member.getName() +" the "+member.getClass().getName()+" added to your party!");
@@ -94,30 +94,7 @@ public class LMHGame implements Game{
 
     }
 
-    public Hero heroCreator(String[] info, char c){
-        Hero h;
-        String name = info[0].replace('_',' ');
-        int lvl = 0;
-        int mana = Integer.parseInt(info[1]);
-        int str = Integer.parseInt(info[2]);
-        int agi = Integer.parseInt(info[3]);
-        int dex = Integer.parseInt(info[4]);
-        int money = Integer.parseInt(info[5]);
-        int xp = Integer.parseInt(info[6]);
 
-        if (c == '1') {
-            h = new Warrior(name,lvl,mana,str,agi,dex,money,xp);
-        } else if (c == '2') {
-            h = new Sorcerer(name,lvl,mana,str,agi,dex,money,xp);
-        } else if (c == '3') {
-            h = new Paladin(name,lvl,mana,str,agi,dex,money,xp);
-        } else{
-            System.out.println("Not a valid class");
-            return null;
-        }
-
-        return h;
-    }
 
     public void moveSequence(){
         while (true) {
@@ -206,15 +183,60 @@ public class LMHGame implements Game{
             }
 
             if(choice == '1'){
-                FileManager.printNames(this.weaponsList);
+                System.out.println(FileManager.fileHeader(weaponsPath));
+                FileManager.printFile(this.weaponsList);
+                System.out.println("\n Select Weapon to buy for "+curHero.getName()+":");
+
+                maxChoices=IntStream.rangeClosed(1,weaponsList.size()).toArray();
+                choice = InputValidation.validIntOrChar(maxChoices,extraChoices,true);
+                if(Character.isAlphabetic(choice)){
+                    if (choice == 'r'){
+                        continue;
+                    }else if (choice == 'c'){
+                        break;
+                    }else{
+                    }
+                }
+                curHero.addToInventory(FileManager.weaponCreator(this.weaponsList.get(choice-'0')));
+                this.weaponsList.remove(choice-'0'-1);
             } else if (choice == '2'){
-                FileManager.printNames(this.armorList);
+                System.out.println(FileManager.fileHeader(armorPath));
+                FileManager.printFile(this.armorList);
+                System.out.println("\n Select Armor to buy for "+curHero.getName()+":");
+
+                maxChoices=IntStream.rangeClosed(1,armorList.size()).toArray();
+                choice = InputValidation.validIntOrChar(maxChoices,extraChoices,true);
+                if(Character.isAlphabetic(choice)){
+                    if (choice == 'r'){
+                        continue;
+                    }else if (choice == 'c'){
+                        break;
+                    }else{
+                    }
+                }
+                curHero.addToInventory(FileManager.weaponCreator(this.armorList.get(choice-'0')));
+                this.armorList.remove(choice-'0'-1);
             } else if (choice == '3'){
-                FileManager.printNames(this.potionsList);
+                System.out.println(FileManager.fileHeader(potionsPath));
+                FileManager.printFile(this.potionsList);
+                System.out.println("\n Select Potion to buy for "+curHero.getName()+":");
+
+                maxChoices=IntStream.rangeClosed(1,potionsList.size()).toArray();
+                choice = InputValidation.validIntOrChar(maxChoices,extraChoices,true);
+                if(Character.isAlphabetic(choice)){
+                    if (choice == 'r'){
+                        continue;
+                    }else if (choice == 'c'){
+                        break;
+                    }else{
+                    }
+                }
+                curHero.addToInventory(FileManager.weaponCreator(this.potionsList.get(choice-'0')));
+                this.potionsList.remove(choice-'0'-1);
             } else if (choice == '4'){
                 System.out.println("Select a spell type:");
-                System.out.println("1. Fire Spells\n" +
-                        "2. Ice Spells\n" +
+                System.out.println("1. Ice Spells\n" +
+                        "2. Fire Spells\n" +
                         "3. Lightning Spells\n");
                 maxChoices = IntStream.rangeClosed(1,3).toArray();
                 choice = InputValidation.validIntOrChar(maxChoices,extraChoices,true);
@@ -227,11 +249,56 @@ public class LMHGame implements Game{
                     }
                 }
                 if(choice == '1'){
-                    FileManager.printNames(this.fireSpellList);
+                    System.out.println(FileManager.fileHeader(iceSpellsPath));
+                    FileManager.printFile(this.iceSpellList);
+                    System.out.println("\n Select Ice Spell to buy for "+curHero.getName()+":");
+
+                    maxChoices=IntStream.rangeClosed(1,iceSpellList.size()).toArray();
+                    choice = InputValidation.validIntOrChar(maxChoices,extraChoices,true);
+                    if(Character.isAlphabetic(choice)){
+                        if (choice == 'r'){
+                            continue;
+                        }else if (choice == 'c'){
+                            break;
+                        }else{
+                        }
+                    }
+                    curHero.addToInventory(FileManager.weaponCreator(this.iceSpellList.get(choice-'0')));
+                    this.iceSpellList.remove(choice-'0'-1);
                 } else if (choice == '2'){
-                    FileManager.printNames(this.iceSpellList);
+                    System.out.println(FileManager.fileHeader(fireSpellsPath));
+                    FileManager.printFile(this.fireSpellList);
+                    System.out.println("\n Select Weapon to buy for "+curHero.getName()+":");
+
+                    maxChoices=IntStream.rangeClosed(1,fireSpellList.size()).toArray();
+                    choice = InputValidation.validIntOrChar(maxChoices,extraChoices,true);
+                    if(Character.isAlphabetic(choice)){
+                        if (choice == 'r'){
+                            continue;
+                        }else if (choice == 'c'){
+                            break;
+                        }else{
+                        }
+                    }
+                    curHero.addToInventory(FileManager.weaponCreator(this.fireSpellList.get(choice-'0')));
+                    this.fireSpellList.remove(choice-'0'-1);
                 } else if (choice == '3'){
-                    FileManager.printNames(this.lightningSpellList);
+                    System.out.println(FileManager.fileHeader(lightningSpellsPath));
+                    FileManager.printFile(this.lightningSpellList);
+                    System.out.println("\n Select Weapon to buy for "+curHero.getName()+":");
+
+                    maxChoices=IntStream.rangeClosed(1,lightningSpellList.size()).toArray();
+                    choice = InputValidation.validIntOrChar(maxChoices,extraChoices,true);
+                    if(Character.isAlphabetic(choice)){
+                        if (choice == 'r'){
+                            continue;
+                        }else if (choice == 'c'){
+                            break;
+                        }else{
+                        }
+                    }
+                    curHero.addToInventory(FileManager.weaponCreator(this.lightningSpellList.get(choice-'0')));
+                    this.lightningSpellList.remove(choice-'0'-1);
                 }
 
             }
