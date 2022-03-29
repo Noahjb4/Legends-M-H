@@ -213,6 +213,56 @@ public abstract class Hero extends GameCharacter{
         }
     }
 
+
+    public ArrayList<Weapon> getWeaponInventory() {
+        return this.weaponInventory;
+    }
+
+    public void printWeaponInventory() {
+        int i = 1;
+        for (Weapon w : this.weaponInventory) {
+            System.out.println(i+". "+w);
+            i++;
+        }
+    }
+
+
+    public void remWeapon(int i){
+        this.weaponInventory.remove(i);
+    }
+
+    public ArrayList<Armor> getArmorInventory() {
+        return this.armorInventory;
+    }
+
+    public void printArmorInventory() {
+        int i = 1;
+        for (Armor a : this.armorInventory) {
+            System.out.println(i+". "+a);
+            i++;
+        }
+    }
+
+    public void remArmor(int i){
+        this.armorInventory.remove(i);
+    }
+
+    public ArrayList<Potion> getPotionInventory() {
+        return this.potionInventory;
+    }
+
+    public void printPotionInventory() {
+        int i = 1;
+        for (Potion p : this.potionInventory) {
+            System.out.println(i+". "+p);
+            i++;
+        }
+    }
+
+    public void remPotion(int i){
+        this.potionInventory.remove(i);
+    }
+
     public void equipWeapon(int i){
         currWeapon = weaponInventory.get(i);
     }

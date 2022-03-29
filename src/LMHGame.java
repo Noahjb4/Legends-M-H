@@ -134,27 +134,147 @@ public class LMHGame implements Game{
 
     public void marketSequence(){
         char choice;
-        Hero curHero;
         int[] maxChoices;
         char[] extraChoices = new char[]{'m','i','r','c','q'};
 
-
-        while(true) {
+        while (true) {
             System.out.println("MARKET\n");
             System.out.println("| M/m: Display map \n" +
-                               "| I/i: Display info \n" +
-                               "| R/r: Reset Shop \n" +
-                               "| C/c: Exit Shop \n");
-            System.out.println("Choose a Hero to shop with:");
-            System.out.println(this.party);
-
-            maxChoices = IntStream.rangeClosed(1,this.party.getSize()).toArray();
-            choice = InputValidation.validIntOrChar(Arrays.copyOfRange(maxChoices,0,this.party.getSize()),extraChoices,true);
+                    "| I/i: Display info \n" +
+                    "| R/r: Reset Shop \n" +
+                    "| C/c: Exit Shop \n");
+            System.out.println("Would You like to Buy or Sell:");
+            System.out.println("1. Buy \n" +
+                    "2. Sell \n");
+            maxChoices = IntStream.rangeClosed(1,2).toArray();
+            choice = InputValidation.validIntOrChar(maxChoices,extraChoices,true);
             if(Character.isAlphabetic(choice)){
                 if (choice == 'r'){
                     continue;
                 }else if (choice == 'c'){
                     break;
+                }else{
+                }
+            }
+            if (choice == '1') {
+                if(marketBuy()){
+                    break;
+                }
+            } else {
+                marketSell();
+            }
+        }
+    }
+
+    public boolean marketSell(){
+        char choice;
+        Hero curHero;
+        boolean leaveMarket = true;
+        int[] maxChoices;
+        char[] extraChoices = new char[]{'m','i','r','c','q'};
+
+        while(true) {
+            System.out.println("Choose a Hero to sell with:");
+            System.out.println(this.party);
+            maxChoices = IntStream.rangeClosed(1,this.party.getSize()).toArray();
+            choice = InputValidation.validIntOrChar(Arrays.copyOfRange(maxChoices,0,this.party.getSize()),extraChoices,true);
+            if(Character.isAlphabetic(choice)){
+                if (choice == 'r'){
+                    break;
+                }else if (choice == 'c'){
+                    return leaveMarket;
+                }else{
+                }
+            }
+
+            curHero = this.party.getMember(Character.getNumericValue(choice)-1);
+            System.out.println("Select an item Type to sell for "+curHero.getName()+":");
+            System.out.println("1. Weapons \n" +
+                    "2. Armor \n" +
+                    "3. Potions \n");
+
+            maxChoices = IntStream.rangeClosed(1,4).toArray();
+            choice = InputValidation.validIntOrChar(maxChoices,extraChoices,true);
+            if(Character.isAlphabetic(choice)){
+                if (choice == 'r'){
+                    break;
+                }else if (choice == 'c'){
+                    return leaveMarket;
+                }else{
+                }
+            }
+
+            if(choice == '1'){
+                curHero.printWeaponInventory();
+                System.out.println("\n Select Weapon to sell for "+curHero.getName()+":");
+
+                maxChoices=IntStream.rangeClosed(1,curHero.getWeaponInventory().size()).toArray();
+                choice = InputValidation.validIntOrChar(maxChoices,extraChoices,true);
+                if(Character.isAlphabetic(choice)){
+                    if (choice == 'r'){
+                        break;
+                    }else if (choice == 'c'){
+                        return leaveMarket;
+                    }else{
+                    }
+                }
+                curHero.remWeapon(choice-'0'-1);
+            } else if (choice == '2'){
+                System.out.println(FileManager.fileHeader(armorPath));
+                FileManager.printFile(this.armorList);
+                System.out.println("\n Select Armor to sell for "+curHero.getName()+":");
+
+                maxChoices=IntStream.rangeClosed(1,curHero.getArmorInventory().size()).toArray();
+                choice = InputValidation.validIntOrChar(maxChoices,extraChoices,true);
+                if(Character.isAlphabetic(choice)){
+                    if (choice == 'r'){
+                        break;
+                    }else if (choice == 'c'){
+                        return leaveMarket;
+                    }else{
+                    }
+                }
+                curHero.remArmor(choice-'0'-1);
+            } else if (choice == '3'){
+                System.out.println(FileManager.fileHeader(potionsPath));
+                FileManager.printFile(this.potionsList);
+                System.out.println("\n Select Potion to sell for "+curHero.getName()+":");
+
+                maxChoices=IntStream.rangeClosed(1,curHero.getPotionInventory().size()).toArray();
+                choice = InputValidation.validIntOrChar(maxChoices,extraChoices,true);
+                if(Character.isAlphabetic(choice)){
+                    if (choice == 'r'){
+                        break;
+                    }else if (choice == 'c'){
+                        return leaveMarket;
+                    }else{
+                    }
+                }
+                curHero.remPotion(choice-'0'-1);
+            }
+        }
+        leaveMarket = false;
+        return leaveMarket;
+    }
+
+    public boolean marketBuy(){
+        char choice;
+        Hero curHero;
+        boolean leaveMarket = true;
+        int[] maxChoices;
+        char[] extraChoices = new char[]{'m','i','r','c','q'};
+
+
+        while(true) {
+            System.out.println("Choose a Hero to shop with:");
+            System.out.println(this.party);
+            maxChoices = IntStream.rangeClosed(1,this.party.getSize()).toArray();
+            choice = InputValidation.validIntOrChar(Arrays.copyOfRange(maxChoices,0,this.party.getSize()),extraChoices,true);
+            if(Character.isAlphabetic(choice)){
+                if (choice == 'r'){
+                    break;
+                }else if (choice == 'c'){
+                    return leaveMarket;
                 }else{
                 }
             }
@@ -170,9 +290,9 @@ public class LMHGame implements Game{
             choice = InputValidation.validIntOrChar(maxChoices,extraChoices,true);
             if(Character.isAlphabetic(choice)){
                 if (choice == 'r'){
-                    continue;
-                }else if (choice == 'c'){
                     break;
+                }else if (choice == 'c'){
+                    return leaveMarket;
                 }else{
                 }
             }
@@ -186,9 +306,9 @@ public class LMHGame implements Game{
                 choice = InputValidation.validIntOrChar(maxChoices,extraChoices,true);
                 if(Character.isAlphabetic(choice)){
                     if (choice == 'r'){
-                        continue;
-                    }else if (choice == 'c'){
                         break;
+                    }else if (choice == 'c'){
+                        return leaveMarket;
                     }else{
                     }
                 }
@@ -203,9 +323,9 @@ public class LMHGame implements Game{
                 choice = InputValidation.validIntOrChar(maxChoices,extraChoices,true);
                 if(Character.isAlphabetic(choice)){
                     if (choice == 'r'){
-                        continue;
-                    }else if (choice == 'c'){
                         break;
+                    }else if (choice == 'c'){
+                        return leaveMarket;
                     }else{
                     }
                 }
@@ -220,9 +340,9 @@ public class LMHGame implements Game{
                 choice = InputValidation.validIntOrChar(maxChoices,extraChoices,true);
                 if(Character.isAlphabetic(choice)){
                     if (choice == 'r'){
-                        continue;
-                    }else if (choice == 'c'){
                         break;
+                    }else if (choice == 'c'){
+                        return leaveMarket;
                     }else{
                     }
                 }
@@ -237,9 +357,9 @@ public class LMHGame implements Game{
                 choice = InputValidation.validIntOrChar(maxChoices,extraChoices,true);
                 if(Character.isAlphabetic(choice)){
                     if (choice == 'r'){
-                        continue;
-                    }else if (choice == 'c'){
                         break;
+                    }else if (choice == 'c'){
+                        return leaveMarket;
                     }else{
                     }
                 }
@@ -252,9 +372,9 @@ public class LMHGame implements Game{
                     choice = InputValidation.validIntOrChar(maxChoices,extraChoices,true);
                     if(Character.isAlphabetic(choice)){
                         if (choice == 'r'){
-                            continue;
-                        }else if (choice == 'c'){
                             break;
+                        }else if (choice == 'c'){
+                            return leaveMarket;
                         }else{
                         }
                     }
@@ -269,9 +389,9 @@ public class LMHGame implements Game{
                     choice = InputValidation.validIntOrChar(maxChoices,extraChoices,true);
                     if(Character.isAlphabetic(choice)){
                         if (choice == 'r'){
-                            continue;
-                        }else if (choice == 'c'){
                             break;
+                        }else if (choice == 'c'){
+                            return leaveMarket;
                         }else{
                         }
                     }
@@ -286,9 +406,9 @@ public class LMHGame implements Game{
                     choice = InputValidation.validIntOrChar(maxChoices,extraChoices,true);
                     if(Character.isAlphabetic(choice)){
                         if (choice == 'r'){
-                            continue;
-                        }else if (choice == 'c'){
                             break;
+                        }else if (choice == 'c'){
+                            return leaveMarket;
                         }else{
                         }
                     }
@@ -298,9 +418,9 @@ public class LMHGame implements Game{
 
             }
 
-
-
         }
+        leaveMarket = false;
+        return leaveMarket;
     }
 
 
