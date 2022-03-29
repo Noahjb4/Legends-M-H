@@ -7,6 +7,7 @@ public abstract class GameCharacter {
     protected int hp;
     protected int level;
     protected String name;
+    protected int defense;
     protected boolean isAlive;
 
     /**
@@ -59,7 +60,7 @@ public abstract class GameCharacter {
      * @param loss number of hp a character will lose
      */
     public void decHp(int loss) {
-        this.hp -= loss;
+        this.hp -= loss + this.defense;
     }
 
     /**
@@ -94,6 +95,24 @@ public abstract class GameCharacter {
     public void setName(String name) {
         this.name = name;
     }
+
+
+    /**
+     * getDefense method gets defense a GameCharacter has
+     * @return dexterity of GameCharacter
+     */
+    public int getDefense() {
+        return this.defense;
+    }
+
+    /**
+     * setDefense method sets defense for a GameCharacter
+     * @param def number GameCharacter defense should be set to
+     */
+    public void setDefense(int def) {
+        this.defense = def;
+    }
+
 
     /**
      * isAlive method gets the living status of GameCharacter

@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 /**
  * Hero --- Abstract Class that represents a Hero in a LHMGame
  * @author Noah Jean-Baptiste
@@ -10,6 +12,12 @@ public abstract class Hero extends GameCharacter{
     protected int money;
     protected int experience;
     protected boolean inParty;
+    protected ArrayList<Weapon> weaponInventory;
+    protected ArrayList<Armor> armorInventory;
+    protected ArrayList<Potion> potionInventory;
+    protected ArrayList<Spell> spells;
+    protected Weapon currWeapon;
+    protected Armor currArmor;
 
 
     /**
@@ -33,6 +41,7 @@ public abstract class Hero extends GameCharacter{
         this.money = c;
         this.experience = xp;
         this.inParty = false;
+        this.defense = 0;
     }
 
     /**

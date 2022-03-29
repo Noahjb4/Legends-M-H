@@ -4,21 +4,25 @@
  */
 
 public abstract class Item {
-    private String name;
+    protected String name;
+    protected int cost;
+    protected int RequiredLevel;
 
     /**
-     * Constructor creates a Item with a name
+     * Constructor creates an Item with a name
      * @param n name of Item
      */
-    public Item(String n){
+    public Item(String n, int c, int reqLvl){
         this.name = n;
+        this.cost = c;
+        this.RequiredLevel = reqLvl;
     }
 
     /**
      * No-Arg Constructor creates a Item with default no name
      */
     public Item (){
-        this("");
+        this("",-1,-1);
     }
 
     /**
@@ -37,6 +41,39 @@ public abstract class Item {
         this.name = name;
     }
 
+
+    /**
+     * setCost method sets Cost of Item
+     * @param c int to become Item Cost
+     */
+    public void setCost(int c) {
+        this.cost = cost;
+    }
+
+    /**
+     * getCost method gets Cost of Item
+     * @return cost Item
+     */
+    public int getCost() {
+        return this.cost;
+    }
+
+
+    /**
+     * setRequiredLevel method sets Required Level of an Item
+     * @param reqLvl Object to become the required Level
+     */
+    public void setRequiredLevel(int reqLvl) {
+        this.RequiredLevel = reqLvl;
+    }
+
+    /**
+     * getRequiredLevel method gets required level of Item
+     * @return RequiredLevel Item
+     */
+    public int getRequiredLevel() {
+        return this.RequiredLevel;
+    }
     /**
      * toString method returns a string representation of Item
      * @return name of Item or default (unnamed Item)
