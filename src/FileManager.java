@@ -79,6 +79,28 @@ public class FileManager {
         return h;
     }
 
+    public static Monster monsterCreator(String[] info, char c){
+        Monster m;
+        String name = info[0].replace('_',' ');
+        int lvl = Integer.parseInt(info[1]);
+        int dmg = Integer.parseInt(info[2]);
+        int def = Integer.parseInt(info[3]);
+        int dc = Integer.parseInt(info[4]);
+
+        if (c == '1') {
+            m = new Dragon(name,lvl, dmg, def, dc);
+        } else if (c == '2') {
+            m = new Exoskeleton(name,lvl, dmg, def, dc);
+        } else if (c == '3') {
+            m = new Spirit(name,lvl, dmg, def, dc);
+        } else{
+            System.out.println("Not a valid class");
+            return null;
+        }
+
+        return m;
+    }
+
     public static Spell spellCreator(String[] info, char c){
         Spell s;
         String name = info[0].replace('_',' ');
