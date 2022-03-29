@@ -12,6 +12,7 @@ public class Party {
 
     public Party() {
         this.members = new ArrayList<Hero>();
+        this.curCell = new CommonCell();
     }
 
     public void addMember(Hero m){

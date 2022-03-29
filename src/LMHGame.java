@@ -99,16 +99,16 @@ public class LMHGame implements Game{
     public void moveSequence(){
         while (true) {
             System.out.println(displayMap(true));
-            char move = InputValidation.validInput(new char[]{'w', 'a', 's', 'd', 'i', 'm', 'q'}, true);
-            if (move == 'i') {
+            char move = InputValidation.validInput(new char[]{'w', 'a', 's', 'd', 'e', 'i', 'm', 'q'}, true);
+            if (move == 'i' || move == 'm'|| move == 'q') {
 
-            } else if (move == 'm') {
-
-            } else if (move == 'q') {
-
+            } else if (this.party.getCurCell() instanceof MarketCell && move == 'e'){
+                marketSequence();
             } else {
                 move(move);
-                encounter();
+                if (this.party.getCurCell() instanceof CommonCell) {
+                    encounter();
+                }
             }
         }
     }
@@ -124,17 +124,12 @@ public class LMHGame implements Game{
     }
 
     public void encounter () {
-        if (this.party.getCurCell() instanceof MarketCell){
-            marketSequence();
-        } else if (this.party.getCurCell() instanceof CommonCell) {
-            Random odds = new Random();
-            if(odds.nextInt(CommonCell.battleChance) == 1){
-                fightSequence();
-            }
-        } else {
-            System.out.println("Error: Invalid Move");
-            System.exit(1);
+
+        Random odds = new Random();
+        if(odds.nextInt(CommonCell.battleChance) == 1){
+            fightSequence();
         }
+
     }
 
     public void marketSequence(){
@@ -321,6 +316,7 @@ public class LMHGame implements Game{
                 "| A/a: move left   |\n" +
                 "| S/s: move down   |\n" +
                 "| D/d: move right  |\n" +
+                "| E/e: -> Market   |\n" +
                 "| I/i: show info   |\n" +
                 "| M/m: show map    |\n" +
                 "| Q/q: quit game   |\n" +
