@@ -211,8 +211,12 @@ public class LMHGame implements Game{
 
             if(choice == '1'){
                 curHero.printWeaponInventory();
-                System.out.println("\n Select Weapon to sell for "+curHero.getName()+":");
+                System.out.println("\nSelect Weapon to sell for "+curHero.getName()+":");
 
+                if (curHero.getWeaponInventory().size() <1){
+                    System.out.println("Nothing to Sell");
+                    break;
+                }
                 maxChoices=IntStream.rangeClosed(1,curHero.getWeaponInventory().size()).toArray();
                 choice = InputValidation.validIntOrChar(maxChoices,extraChoices,true);
                 if(Character.isAlphabetic(choice)){
@@ -229,8 +233,12 @@ public class LMHGame implements Game{
             } else if (choice == '2'){
                 System.out.println(FileManager.fileHeader(armorPath));
                 FileManager.printFile(this.armorList);
-                System.out.println("\n Select Armor to sell for "+curHero.getName()+":");
+                System.out.println("\nSelect Armor to sell for "+curHero.getName()+":");
 
+                if (curHero.getArmorInventory().size() <1){
+                    System.out.println("Nothing to Sell");
+                    break;
+                }
                 maxChoices=IntStream.rangeClosed(1,curHero.getArmorInventory().size()).toArray();
                 choice = InputValidation.validIntOrChar(maxChoices,extraChoices,true);
                 if(Character.isAlphabetic(choice)){
@@ -247,8 +255,11 @@ public class LMHGame implements Game{
             } else if (choice == '3'){
                 System.out.println(FileManager.fileHeader(potionsPath));
                 FileManager.printFile(this.potionsList);
-                System.out.println("\n Select Potion to sell for "+curHero.getName()+":");
-
+                System.out.println("\nSelect Potion to sell for "+curHero.getName()+":");
+                if (curHero.getPotionInventory().size() <1){
+                    System.out.println("Nothing to Sell");
+                    break;
+                }
                 maxChoices=IntStream.rangeClosed(1,curHero.getPotionInventory().size()).toArray();
                 choice = InputValidation.validIntOrChar(maxChoices,extraChoices,true);
                 if(Character.isAlphabetic(choice)){
@@ -271,6 +282,7 @@ public class LMHGame implements Game{
     public boolean marketBuy(){
         char choice;
         Hero curHero;
+        Item curItem;
         boolean leaveMarket = true;
         int[] maxChoices;
         char[] extraChoices = new char[]{'m','i','r','c','q'};
@@ -329,7 +341,12 @@ public class LMHGame implements Game{
                         break;
                     }
                 }
-                curHero.addToInventory(FileManager.weaponCreator(this.weaponsList.get(choice-'0')));
+                curItem = FileManager.weaponCreator(this.weaponsList.get(choice-'0'-1));
+                if(curHero.getLevel() < curItem.getRequiredLevel() || curHero.getMoney() < curItem.getCost()){
+                    System.out.println("You cannot Purchase this Item!");
+                    break;
+                }
+                curHero.addToInventory(curItem);
                 this.weaponsList.remove(choice-'0'-1);
             } else if (choice == '2'){
                 System.out.println(FileManager.fileHeader(armorPath));
@@ -348,7 +365,12 @@ public class LMHGame implements Game{
                         break;
                     }
                 }
-                curHero.addToInventory(FileManager.weaponCreator(this.armorList.get(choice-'0')));
+                curItem = FileManager.weaponCreator(this.armorList.get(choice-'0'-1));
+                if(curHero.getLevel() < curItem.getRequiredLevel() || curHero.getMoney() < curItem.getCost()){
+                    System.out.println("You cannot Purchase this Item!");
+                    break;
+                }
+                curHero.addToInventory(curItem);
                 this.armorList.remove(choice-'0'-1);
             } else if (choice == '3'){
                 System.out.println(FileManager.fileHeader(potionsPath));
@@ -367,7 +389,12 @@ public class LMHGame implements Game{
                         break;
                     }
                 }
-                curHero.addToInventory(FileManager.weaponCreator(this.potionsList.get(choice-'0')));
+                curItem = FileManager.weaponCreator(this.potionsList.get(choice-'0'-1));
+                if(curHero.getLevel() < curItem.getRequiredLevel() || curHero.getMoney() < curItem.getCost()){
+                    System.out.println("You cannot Purchase this Item!");
+                    break;
+                }
+                curHero.addToInventory(curItem);
                 this.potionsList.remove(choice-'0'-1);
             } else if (choice == '4'){
                 System.out.println("Select a spell type:");
@@ -403,7 +430,12 @@ public class LMHGame implements Game{
                             break;
                         }
                     }
-                    curHero.addToInventory(FileManager.weaponCreator(this.iceSpellList.get(choice-'0')));
+                    curItem = FileManager.weaponCreator(this.iceSpellList.get(choice-'0'-1));
+                    if(curHero.getLevel() < curItem.getRequiredLevel() || curHero.getMoney() < curItem.getCost()){
+                        System.out.println("You cannot Purchase this Item!");
+                        break;
+                    }
+                    curHero.addToInventory(curItem);
                     this.iceSpellList.remove(choice-'0'-1);
                 } else if (choice == '2'){
                     System.out.println(FileManager.fileHeader(fireSpellsPath));
@@ -422,7 +454,12 @@ public class LMHGame implements Game{
                             break;
                         }
                     }
-                    curHero.addToInventory(FileManager.weaponCreator(this.fireSpellList.get(choice-'0')));
+                    curItem = FileManager.weaponCreator(this.fireSpellList.get(choice-'0'-1));
+                    if(curHero.getLevel() < curItem.getRequiredLevel() || curHero.getMoney() < curItem.getCost()){
+                        System.out.println("You cannot Purchase this Item!");
+                        break;
+                    }
+                    curHero.addToInventory(curItem);
                     this.fireSpellList.remove(choice-'0'-1);
                 } else if (choice == '3'){
                     System.out.println(FileManager.fileHeader(lightningSpellsPath));
@@ -441,7 +478,12 @@ public class LMHGame implements Game{
                             break;
                         }
                     }
-                    curHero.addToInventory(FileManager.weaponCreator(this.lightningSpellList.get(choice-'0')));
+                    curItem = FileManager.weaponCreator(this.lightningSpellList.get(choice-'0'-1));
+                    if(curHero.getLevel() < curItem.getRequiredLevel() || curHero.getMoney() < curItem.getCost()){
+                        System.out.println("You cannot Purchase this Item!");
+                        break;
+                    }
+                    curHero.addToInventory(curItem);
                     this.lightningSpellList.remove(choice-'0'-1);
                 }
 
