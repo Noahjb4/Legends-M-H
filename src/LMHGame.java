@@ -425,7 +425,8 @@ public class LMHGame implements Game{
 
 
     public void fightSequence(){
-        System.out.println("FIGHT");
+        System.out.println("FIGHT\n");
+
     }
 
 
