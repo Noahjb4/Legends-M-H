@@ -270,6 +270,10 @@ public abstract class Hero extends GameCharacter{
         currArmor = armorInventory.get(i);
     }
 
+    public String detailedInfo(){
+        String data = "HP: " +this.hp+"\nLevel: "+this.level+"\nMana: "+this.mana+"\nMoney: "+this.money+"\nXP: "+this.experience+"\nStr: "+this.strength+"\nAgi: "+this.agility+"\nDex: "+this.dexterity+"\nDef: "+this.defense;
+        return data;
+    }
 
 
     /**

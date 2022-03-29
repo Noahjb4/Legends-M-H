@@ -115,6 +115,14 @@ public class Party {
         return true;
     }
 
+    public String detailedDisplay(){
+        String personnel = "";
+        for (Hero member : this.members) {
+            personnel+="-* "+member.getName()+" *-\n"+member.detailedInfo()+"\n";
+        }
+        return personnel;
+    }
+
     @Override
     public String toString() {
         String personnel = "";

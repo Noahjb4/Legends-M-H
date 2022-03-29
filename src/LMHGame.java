@@ -101,7 +101,7 @@ public class LMHGame implements Game{
             System.out.println(displayMap(true));
             char move = InputValidation.validInput(new char[]{'w', 'a', 's', 'd', 'e', 'i', 'm', 'q'}, true);
             if (move == 'i' || move == 'm'|| move == 'q') {
-
+                constantCommands(move);
             } else if (this.party.getCurCell() instanceof MarketCell && move == 'e'){
                 marketSequence();
             } else {
@@ -124,7 +124,6 @@ public class LMHGame implements Game{
     }
 
     public void encounter () {
-
         Random odds = new Random();
         if(odds.nextInt(CommonCell.battleChance) == 1){
             fightSequence();
@@ -154,6 +153,8 @@ public class LMHGame implements Game{
                 }else if (choice == 'c'){
                     break;
                 }else{
+                    constantCommands(choice);
+                    continue;
                 }
             }
             if (choice == '1') {
@@ -184,6 +185,8 @@ public class LMHGame implements Game{
                 }else if (choice == 'c'){
                     return leaveMarket;
                 }else{
+                    constantCommands(choice);
+                    break;
                 }
             }
 
@@ -201,6 +204,8 @@ public class LMHGame implements Game{
                 }else if (choice == 'c'){
                     return leaveMarket;
                 }else{
+                    constantCommands(choice);
+                    break;
                 }
             }
 
@@ -216,6 +221,8 @@ public class LMHGame implements Game{
                     }else if (choice == 'c'){
                         return leaveMarket;
                     }else{
+                        constantCommands(choice);
+                        break;
                     }
                 }
                 curHero.remWeapon(choice-'0'-1);
@@ -232,6 +239,8 @@ public class LMHGame implements Game{
                     }else if (choice == 'c'){
                         return leaveMarket;
                     }else{
+                        constantCommands(choice);
+                        break;
                     }
                 }
                 curHero.remArmor(choice-'0'-1);
@@ -248,6 +257,8 @@ public class LMHGame implements Game{
                     }else if (choice == 'c'){
                         return leaveMarket;
                     }else{
+                        constantCommands(choice);
+                        break;
                     }
                 }
                 curHero.remPotion(choice-'0'-1);
@@ -276,6 +287,8 @@ public class LMHGame implements Game{
                 }else if (choice == 'c'){
                     return leaveMarket;
                 }else{
+                    constantCommands(choice);
+                    break;
                 }
             }
 
@@ -294,6 +307,8 @@ public class LMHGame implements Game{
                 }else if (choice == 'c'){
                     return leaveMarket;
                 }else{
+                    constantCommands(choice);
+                    break;
                 }
             }
 
@@ -310,6 +325,8 @@ public class LMHGame implements Game{
                     }else if (choice == 'c'){
                         return leaveMarket;
                     }else{
+                        constantCommands(choice);
+                        break;
                     }
                 }
                 curHero.addToInventory(FileManager.weaponCreator(this.weaponsList.get(choice-'0')));
@@ -327,6 +344,8 @@ public class LMHGame implements Game{
                     }else if (choice == 'c'){
                         return leaveMarket;
                     }else{
+                        constantCommands(choice);
+                        break;
                     }
                 }
                 curHero.addToInventory(FileManager.weaponCreator(this.armorList.get(choice-'0')));
@@ -344,6 +363,8 @@ public class LMHGame implements Game{
                     }else if (choice == 'c'){
                         return leaveMarket;
                     }else{
+                        constantCommands(choice);
+                        break;
                     }
                 }
                 curHero.addToInventory(FileManager.weaponCreator(this.potionsList.get(choice-'0')));
@@ -361,6 +382,8 @@ public class LMHGame implements Game{
                     }else if (choice == 'c'){
                         return leaveMarket;
                     }else{
+                        constantCommands(choice);
+                        break;
                     }
                 }
                 if(choice == '1'){
@@ -376,6 +399,8 @@ public class LMHGame implements Game{
                         }else if (choice == 'c'){
                             return leaveMarket;
                         }else{
+                            constantCommands(choice);
+                            break;
                         }
                     }
                     curHero.addToInventory(FileManager.weaponCreator(this.iceSpellList.get(choice-'0')));
@@ -393,6 +418,8 @@ public class LMHGame implements Game{
                         }else if (choice == 'c'){
                             return leaveMarket;
                         }else{
+                            constantCommands(choice);
+                            break;
                         }
                     }
                     curHero.addToInventory(FileManager.weaponCreator(this.fireSpellList.get(choice-'0')));
@@ -410,6 +437,8 @@ public class LMHGame implements Game{
                         }else if (choice == 'c'){
                             return leaveMarket;
                         }else{
+                            constantCommands(choice);
+                            break;
                         }
                     }
                     curHero.addToInventory(FileManager.weaponCreator(this.lightningSpellList.get(choice-'0')));
@@ -425,7 +454,88 @@ public class LMHGame implements Game{
 
 
     public void fightSequence(){
-        System.out.println("FIGHT\n");
+        MonsterParty monsters;
+        monsters = populateMonsters();
+        Hero curHero;
+        Monster curMonster;
+        char choice;
+        int[] maxChoices;
+        char[] extraChoices = new char[]{'m','i','q'};
+
+        while(!this.party.lostFight() && !monsters.lostFight()) {
+            for (int i = 0; i < this.party.getSize(); i++) {
+                System.out.println("FIGHT\n");
+                curHero = this.party.getMember(i);
+                curMonster = monsters.getMember(i);
+                System.out.println(curHero.getName() + " VS " + curMonster.getName());
+                System.out.println("1. Attack \n");
+                maxChoices = IntStream.rangeClosed(1, 4).toArray();
+                choice = InputValidation.validIntOrChar(maxChoices, extraChoices, true);
+                if (Character.isAlphabetic(choice)) {
+                    constantCommands(choice);
+                    fightSequence();
+                }
+                if (choice == '1') {
+                    curMonster.decHp(curHero.getStrength());
+                    curHero.decHp(curMonster.getDamage());
+
+                    System.out.println(curHero.getName() + " did " + curHero.getStrength() + " Damage");
+                    System.out.println(curMonster.getName() + " did " + curMonster.getDamage() + " Damage\n");
+
+                    System.out.println(curHero.getName()+" Has "+curHero.getHp()+" HP remaining");
+                    System.out.println(curMonster.getName()+" Has "+curMonster.getHp()+" HP remaining");
+                }
+            }
+        }
+
+        if(this.party.lostFight()){
+            System.out.println("YOU LOSE");
+            System.exit(0);
+        }
+
+        this.party.reviveParty();
+
+    }
+
+    public MonsterParty populateMonsters(){
+        ArrayList<String[]> dragons = FileManager.readFile(dragonsPath);
+        ArrayList<String[]> exoskeletons = FileManager.readFile(exoskeletonsPath);
+        ArrayList<String[]> spirits = FileManager.readFile(spiritsPath);
+
+        MonsterParty monsters = new MonsterParty();
+        int type;
+        int row;
+
+        Random rand = new Random();
+        type = rand.nextInt(4);
+        for (int i = 0; i < this.party.getSize(); i++) {
+            if(type == 1){
+                row = rand.nextInt(dragons.size());
+                monsters.addMember(FileManager.monsterCreator(dragons.get(row),'1'));
+            } else if(type == 2){
+                row = rand.nextInt(exoskeletons.size());
+                monsters.addMember(FileManager.monsterCreator(exoskeletons.get(row),'2'));
+            } else if(type == 3){
+                row = rand.nextInt(spirits.size());
+                monsters.addMember(FileManager.monsterCreator(spirits.get(row),'3'));
+            }
+        }
+
+        return monsters;
+
+    }
+
+    public void constantCommands(char c){
+        if(c == 'i'){
+            displayStats();
+        } else  if(c == 'm'){
+            System.out.println(displayMap(false));
+        } else  if(c == 'q'){
+            System.exit(0);
+        }
+
+        System.out.println("Enter any character to continue:");
+        InputValidation.validChar();
 
     }
 
@@ -476,7 +586,7 @@ public class LMHGame implements Game{
     }
 
     public void displayStats(){
-
+        System.out.println(this.party.detailedDisplay());
     }
 
 }

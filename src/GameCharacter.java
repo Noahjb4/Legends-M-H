@@ -61,6 +61,9 @@ public abstract class GameCharacter {
      */
     public void decHp(int loss) {
         this.hp -= loss + this.defense;
+        if(this.hp <= 0){
+            this.isAlive = false;
+        }
     }
 
     /**

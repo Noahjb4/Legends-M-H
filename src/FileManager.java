@@ -57,7 +57,7 @@ public class FileManager {
     public static Hero heroCreator(String[] info, char c){
         Hero h;
         String name = info[0].replace('_',' ');
-        int lvl = 0;
+        int lvl = 1;
         int mana = Integer.parseInt(info[1]);
         int str = Integer.parseInt(info[2]);
         int agi = Integer.parseInt(info[3]);
